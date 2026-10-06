@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Абылай хан мұрасы: бүгінгі күнге сабақ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --maroon:#5a1a1a;
+  --maroon-dark:#3a1010;
+  --maroon-darker:#230a0a;
+  --gold:#d4a24c;
+  --gold-light:#f0cb7e;
+  --cream:#f5ead6;
+  --bg:#1b0d0d;
+  --shadow:rgba(0,0,0,.5);
+  --font-head:'Playfair Display','PT Serif',Georgia,serif;
+  --font-body:'Montserrat','PT Sans',Arial,sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(212,162,76,.08), transparent 55%),
+    radial-gradient(ellipse at 85% 85%, rgba(212,162,76,.06), transparent 55%),
+    linear-gradient(160deg, var(--bg), var(--maroon-darker) 60%, var(--bg));
+  color:var(--cream);
+  font-family:var(--font-body);
+  overflow:hidden;
+  position:relative;
+  height:100vh;
+  width:100vw;
+}
+h1,h2,h3{font-family:var(--font-head); margin:0;}
+button{font-family:var(--font-body); cursor:pointer;}
+::selection{background:var(--gold); color:var(--maroon-dark);}
+
+/* ---------- ornament svg ---------- */
+.ornament-corner{
+  position:fixed; width:min(14vw,160px); height:min(14vw,160px);
+  color:var(--gold); opacity:.55; pointer-events:none; z-index:5;
+  filter:drop-shadow(0 0 6px rgba(212,162,76,.25));
+}
+.oc-tl{top:0; left:0;}
+.oc-tr{top:0; right:0; transform:scaleX(-1);}
+.oc-bl{bottom:0; left:0; transform:scaleY(-1);}
+.oc-br{bottom:0; right:0; transform:scale(-1,-1);}
+
+/* ---------- screens ---------- */
+.screen{
+  position:fixed; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column;
+  opacity:0; pointer-events:none;
+  transition:opacity .6s ease;
+  padding:3vh 4vw;
+  overflow-y:auto;
+}
+.screen.active{opacity:1; pointer-events:auto;}
+.screen::-webkit-scrollbar{width:10px;}
+.screen::-webkit-scrollbar-thumb{background:var(--maroon); border-radius:6px;}
+
+.eyebrow{
+  letter-spacing:.35em; text-transform:uppercase; color:var(--gold);
+  font-size:clamp(.8rem,1.1vw,1rem); font-weight:600; margin-bottom:1.2rem;
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  border:2px solid var(--gold);
+  background:linear-gradient(180deg, rgba(212,162,76,.18), rgba(212,162,76,.05));
+  color:var(--cream);
+  padding:.9em 2.2em;
+  border-radius:999px;
+  font-size:clamp(1rem,1.3vw,1.3rem);
+  font-weight:600;
+  letter-spacing:.02em;
+  transition:all .25s ease;
+  box-shadow:0 4px 18px rgba(0,0,0,.35);
+}
+.btn:hover{
+  background:linear-gradient(180deg, var(--gold-light), var(--gold));
+  color:var(--maroon-dark);
+  box-shadow:0 0 28px rgba(212,162,76,.55), 0 4px 18px rgba(0,0,0,.4);
+  transform:translateY(-2px);
+}
+.btn:active{transform:translateY(0);}
+.btn.primary{
+  background:linear-gradient(180deg, var(--gold-light), var(--gold));
+  color:var(--maroon-dark);
+}
+.btn.ghost{background:transparent; opacity:.85;}
+.btn.small{padding:.55em 1.3em; font-size:clamp(.85rem,1vw,1rem);}
+.btn:disabled{opacity:.35; cursor:not-allowed; transform:none!important; box-shadow:none!important;}
+.btn.glow{animation:pulseGlow 1.8s ease-in-out infinite;}
+@keyframes pulseGlow{
+  0%,100%{box-shadow:0 0 10px rgba(212,162,76,.3);}
+  50%{box-shadow:0 0 32px rgba(212,162,76,.85);}
+}
+
+/* ---------- restart button ---------- */
+#restartBtn{
+  position:fixed; top:18px; right:22px; z-index:50;
+  font-size:.85rem; padding:.5em 1.1em; opacity:.6;
+}
+#restartBtn:hover{opacity:1;}
+
+/* ================= START ================= */
+#screen-start .title-block{text-align:center; max-width:900px;}
+#screen-start h1{
+  font-size:clamp(2.2rem,5.2vw,4.4rem);
+  color:var(--gold-light);
+  text-shadow:0 2px 24px rgba(212,162,76,.35);
+  line-height:1.15;
+}
+#screen-start .subtitle{
+  margin-top:1.4rem; font-size:clamp(1.1rem,1.8vw,1.6rem);
+  color:var(--cream); opacity:.9; letter-spacing:.03em;
+}
+#screen-start .cta{margin-top:2.2rem; display:flex; flex-direction:column; gap:1rem; align-items:center;}
+.divider{
+  width:140px; height:3px; margin:1.6rem auto 0;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.author-frame{
+  width:clamp(130px,18vh,220px); aspect-ratio:4/5; margin:1.6rem auto 0;
+  border-radius:14px; padding:7px; position:relative;
+  background:linear-gradient(145deg, var(--gold-light), var(--gold));
+  box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 0 1px rgba(212,162,76,.35);
+}
+.author-frame::before{
+  content:""; position:absolute; inset:7px; border:1.5px solid rgba(58,16,16,.3);
+  border-radius:8px; pointer-events:none; z-index:2;
+}
+.author-frame img{width:100%; height:100%; object-fit:cover; border-radius:8px; display:block;}
+.author-name{
+  margin-top:.8rem; font-family:var(--font-head); font-weight:700;
+  font-size:clamp(1.05rem,1.6vw,1.35rem); color:var(--gold-light); letter-spacing:.02em;
+}
+.author-role{
+  margin-top:.2rem; font-size:clamp(.78rem,1vw,.92rem); color:var(--cream); opacity:.75;
+}
+
+/* ================= DRAW ================= */
+#screen-draw{align-items:stretch; justify-content:flex-start;}
+.draw-header{
+  display:flex; align-items:center; justify-content:center; gap:1.4rem;
+  flex-wrap:wrap; margin-bottom:1.6rem; text-align:center;
+}
+.current-pair-label{
+  font-family:var(--font-head); font-size:clamp(1.3rem,2.2vw,2rem); color:var(--gold-light);
+}
+.current-pair-label b{color:var(--cream);}
+#pairSelect{
+  background:var(--maroon-dark); color:var(--cream); border:1.5px solid var(--gold);
+  border-radius:999px; padding:.5em 1.2em; font-size:1rem; font-family:var(--font-body);
+}
+.cards-grid{
+  display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(3,1fr);
+  gap:1.1vw; width:100%; max-width:1200px; margin:0 auto;
+  flex:1;
+}
+.card{aspect-ratio:3/4; perspective:1400px; cursor:pointer;}
+.card.played{cursor:default;}
+.card.locked{cursor:not-allowed;}
+.card-inner{
+  position:relative; width:100%; height:100%;
+  transform-style:preserve-3d; transition:transform .85s cubic-bezier(.4,.1,.2,1);
+}
+.card.flipped .card-inner{transform:rotateY(180deg);}
+.card-face{
+  position:absolute; inset:0; backface-visibility:hidden;
+  border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:.6rem; text-align:center;
+}
+.card-back{
+  background:linear-gradient(145deg, var(--maroon), var(--maroon-darker));
+  border:2px solid var(--gold); box-shadow:inset 0 0 20px rgba(0,0,0,.4), 0 4px 14px rgba(0,0,0,.4);
+}
+.card:not(.played):hover .card-back{
+  border-color:var(--gold-light); box-shadow:0 0 22px rgba(212,162,76,.5), inset 0 0 20px rgba(0,0,0,.4);
+}
+.card-back .num{
+  font-family:var(--font-head); font-size:clamp(1.6rem,2.6vw,2.6rem); color:var(--gold-light); font-weight:700;
+}
+.card-back .mark{color:var(--gold); opacity:.5; font-size:1.4rem; margin-top:.3rem;}
+.card-back svg{width:46%; color:var(--gold); opacity:.4; margin-top:.2rem;}
+.card-front{
+  background:linear-gradient(145deg, var(--gold-light), var(--gold));
+  color:var(--maroon-dark); transform:rotateY(180deg);
+  border:2px solid var(--gold-light);
+}
+.card-front .topic{font-family:var(--font-head); font-weight:700; font-size:clamp(.85rem,1.25vw,1.15rem); line-height:1.25;}
+.card-front .names{margin-top:.5rem; font-size:clamp(.68rem,.95vw,.85rem); font-weight:600; opacity:.85;}
+.card-front .stars{margin-top:.5rem; font-size:clamp(.9rem,1.3vw,1.2rem); letter-spacing:.15em;}
+.star-on{color:var(--maroon-dark);}
+.star-off{color:rgba(58,16,16,.25);}
+
+/* ================= QUESTION ================= */
+#screen-question{padding:0; align-items:stretch; justify-content:flex-start;}
+.q-wrap{position:relative; width:100%; height:100%; display:flex; flex-direction:column;}
+.video-stage{position:absolute; inset:0; background:#000; display:flex; align-items:center; justify-content:center;}
+.video-stage video{width:100%; height:100%; object-fit:contain; background:#000;}
+.video-skip{
+  position:absolute; bottom:28px; right:32px; z-index:3;
+}
+.video-fallback{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:linear-gradient(160deg, var(--maroon), var(--maroon-darker));
+  text-align:center; padding:4vw;
+}
+.video-fallback .note{color:var(--gold); opacity:.7; font-size:.95rem; margin-top:1.4rem;}
+.video-fallback .q-text{font-family:var(--font-head); font-size:clamp(1.4rem,3vw,2.4rem); color:var(--cream); max-width:1000px;}
+
+.question-stage{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:4vh 6vw; text-align:center; opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease, transform .7s ease; pointer-events:none;
+}
+.question-stage.show{opacity:1; transform:translateY(0);}
+#screen-question.active .question-stage.show{pointer-events:auto;}
+.q-topic{color:var(--gold); letter-spacing:.3em; text-transform:uppercase; font-size:clamp(.8rem,1.1vw,1rem); font-weight:700;}
+.q-names{font-family:var(--font-head); color:var(--gold-light); font-size:clamp(1.1rem,1.7vw,1.5rem); margin-top:.6rem;}
+.q-text{
+  font-family:var(--font-head); font-weight:700; font-size:clamp(1.5rem,3vw,2.5rem);
+  max-width:1100px; margin-top:1.1rem; line-height:1.35; color:var(--cream);
+}
+
+.timer-row{display:flex; align-items:center; gap:1.6rem; margin-top:2.2rem; flex-wrap:wrap; justify-content:center;}
+.timer-display{
+  font-family:var(--font-head); font-size:clamp(2.4rem,5vw,4rem); color:var(--gold-light);
+  min-width:3.2ch; text-align:center; font-variant-numeric:tabular-nums;
+}
+.timer-display.low{color:#e3684f; animation:tick .9s infinite;}
+.timer-display.done{color:#e3684f;}
+@keyframes tick{0%,100%{opacity:1;}50%{opacity:.45;}}
+.timer-controls{display:flex; gap:.6rem;}
+
+.answer-block{margin-top:2.2rem; width:100%; max-width:900px;}
+.answer-flip{perspective:1200px;}
+.answer-flip-inner{
+  transform:rotateX(90deg); opacity:0; transform-origin:top center;
+  transition:transform .65s cubic-bezier(.4,.1,.2,1), opacity .5s ease;
+  margin-top:1rem; background:rgba(212,162,76,.1); border:1.5px solid var(--gold);
+  border-radius:16px; padding:1.4rem 1.8rem;
+}
+.answer-flip-inner.open{transform:rotateX(0deg); opacity:1;}
+.answer-flip-inner p{
+  margin:0; font-size:clamp(1.05rem,1.6vw,1.35rem); line-height:1.55; color:var(--cream);
+}
+.answer-label{color:var(--gold); font-weight:700; letter-spacing:.08em; font-size:.85rem; text-transform:uppercase;}
+
+.stars-row{margin-top:2.2rem; display:flex; gap:1.1rem; justify-content:center;}
+.star-btn{
+  background:none; border:none; font-size:clamp(2.2rem,4vw,3.4rem); line-height:1;
+  color:rgba(245,234,214,.25); transition:transform .2s, color .2s; padding:.1em;
+}
+.star-btn:hover{transform:scale(1.15);}
+.star-btn.on{color:var(--gold-light); text-shadow:0 0 18px rgba(212,162,76,.7);}
+
+.q-actions{display:flex; gap:1rem; margin-top:2.4rem; flex-wrap:wrap; justify-content:center; padding-bottom:3vh;}
+
+/* ================= SUMMARY ================= */
+#screen-summary{align-items:stretch; justify-content:flex-start;}
+.summary-wrap{max-width:1100px; margin:0 auto; width:100%; text-align:center;}
+.summary-wrap h2{
+  font-size:clamp(1.6rem,3vw,2.6rem); color:var(--gold-light); line-height:1.3;
+}
+table.summary-table{
+  width:100%; border-collapse:collapse; margin-top:2rem;
+  background:rgba(245,234,214,.03); border:1px solid rgba(212,162,76,.3); border-radius:12px; overflow:hidden;
+}
+table.summary-table th, table.summary-table td{
+  padding:.75em 1em; border-bottom:1px solid rgba(212,162,76,.18); font-size:clamp(.85rem,1.1vw,1.05rem);
+}
+table.summary-table th{
+  background:rgba(212,162,76,.12); color:var(--gold); text-transform:uppercase; letter-spacing:.08em; font-size:.8rem;
+}
+table.summary-table td{color:var(--cream);}
+table.summary-table tr:last-child td{border-bottom:none;}
+.sum-stars{letter-spacing:.15em; color:var(--gold-light);}
+.summary-actions{margin-top:2.2rem;}
+
+.particles{position:fixed; inset:0; pointer-events:none; z-index:2; overflow:hidden;}
+.particle{
+  position:absolute; bottom:-20px; border-radius:50%;
+  background:radial-gradient(circle, var(--gold-light), var(--gold) 60%, transparent 70%);
+  opacity:.85; animation:floatUp linear forwards;
+}
+@keyframes floatUp{
+  0%{transform:translateY(0) translateX(0) scale(1); opacity:.9;}
+  100%{transform:translateY(-100vh) translateX(var(--drift,0px)) scale(.4); opacity:0;}
+}
+
+@media (max-width:900px){
+  .cards-grid{grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(4,1fr);}
+}
+</style>
+</head>
+<body>
+
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <symbol id="horn-motif" viewBox="0 0 110 80">
+    <path d="M55 6
+             C35 6 20 20 20 38
+             C20 52 29 60 39 60
+             C46 60 51 55 51 48
+             C51 42 47 38 41 38"
+          fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M55 6
+             C75 6 90 20 90 38
+             C90 52 81 60 71 60
+             C64 60 59 55 59 48
+             C59 42 63 38 69 38"
+          fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="55" cy="6" r="4.5" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<svg class="ornament-corner oc-tl" viewBox="0 0 110 80"><use href="#horn-motif"/></svg>
+<svg class="ornament-corner oc-tr" viewBox="0 0 110 80"><use href="#horn-motif"/></svg>
+<svg class="ornament-corner oc-bl" viewBox="0 0 110 80"><use href="#horn-motif"/></svg>
+<svg class="ornament-corner oc-br" viewBox="0 0 110 80"><use href="#horn-motif"/></svg>
+
+<button id="restartBtn" class="btn ghost small" title="Прогресті тазалап, басынан бастау">⟲ Қайта бастау</button>
+
+<!-- ================= START ================= -->
+<section id="screen-start" class="screen">
+  <div class="title-block">
+    <div class="eyebrow">Ашық тарих сабағы</div>
+    <h1>Абылай хан мұрасы:<br>бүгінгі күнге сабақ</h1>
+    <div class="author-frame"><img src="images/adilbek-kyzdarbekov.jpg" alt="Әділбек Қыздарбеков"></div>
+    <div class="author-name">Әділбек Қыздарбеков</div>
+    <div class="author-role">Қазақстан тарихы бойынша тарихшы</div>
+    <div class="divider"></div>
+    <p class="subtitle">12 топ — 12 сұрақ — 12 сабақ</p>
+    <div class="cta">
+      <button class="btn primary" id="btnStart">Сабақты бастау</button>
+      <button class="btn ghost small" id="btnContinue" style="display:none;">Сабақты жалғастыру</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DRAW ================= -->
+<section id="screen-draw" class="screen">
+  <div class="draw-header">
+    <div class="current-pair-label">Кезекті топ: <b id="currentPairName">—</b></div>
+    <select id="pairSelect"></select>
+    <button class="btn small" id="btnToSummary">Қорытынды →</button>
+  </div>
+  <div class="cards-grid" id="cardsGrid"></div>
+</section>
+
+<!-- ================= QUESTION ================= -->
+<section id="screen-question" class="screen">
+  <div class="q-wrap">
+    <div class="video-stage" id="videoStage">
+      <video id="qVideo" playsinline></video>
+      <button class="btn small video-skip" id="btnSkipVideo">Сұраққа өту →</button>
+    </div>
+    <div class="video-fallback" id="videoFallback" style="display:none;">
+      <div class="q-topic">Видео табылмады</div>
+      <div class="q-text" id="fallbackQText"></div>
+      <div class="note">videos/ қалтасын тексеріңіз — сабақ жалғасады</div>
+    </div>
+
+    <div class="question-stage" id="questionStage">
+      <div class="q-topic" id="qTopicLabel"></div>
+      <div class="q-names" id="qNamesLabel"></div>
+      <div class="q-text" id="qTextLabel"></div>
+
+      <div class="timer-row">
+        <div class="timer-display" id="timerDisplay">1:30</div>
+        <div class="timer-controls">
+          <button class="btn small" id="btnTimerStart">Бастау</button>
+          <button class="btn small" id="btnTimerStop">Тоқтату</button>
+          <button class="btn small" id="btnTimerReset">Қайта</button>
+        </div>
+      </div>
+
+      <div class="answer-block">
+        <button class="btn" id="btnRevealAnswer">Үлгі жауапты ашу</button>
+        <div class="answer-flip">
+          <div class="answer-flip-inner" id="answerBox">
+            <div class="answer-label">Үлгі жауап</div>
+            <p id="answerText"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stars-row" id="starsRow">
+        <button class="star-btn" data-star="1">★</button>
+        <button class="star-btn" data-star="2">★</button>
+        <button class="star-btn" data-star="3">★</button>
+      </div>
+
+      <div class="q-actions">
+        <button class="btn" id="btnReplayVideo">Видеоны қайталау</button>
+        <button class="btn primary" id="btnBackToDraw">Жеребеге оралу</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SUMMARY ================= -->
+<section id="screen-summary" class="screen">
+  <div class="particles" id="particles"></div>
+  <div class="summary-wrap">
+    <h2>Рахмет! Абылай хан мұрасы — біздің болашағымыз</h2>
+    <table class="summary-table">
+      <thead>
+        <tr><th>№</th><th>Топ</th><th>Тақырып</th><th>Жұлдыздар</th></tr>
+      </thead>
+      <tbody id="summaryBody"></tbody>
+    </table>
+    <div class="summary-actions">
+      <button class="btn" id="btnSummaryBack">← Жеребеге оралу</button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------------- DATA ---------------- */
+const CARDS = [
+  {id:1, topic:"Ел бірлігі", question:"Абылай хан елді біріктіру саясаты бүгінгі Қазақстан үшін неліктен маңызды?", answer:"Ел бірлігі — мемлекеттің қорғаны. Абылай хан жүздерді біріктіруге ұмтылса, бүгін біз ортақ мақсатқа жұмылуымыз керек.", video:"videos/1.mp4"},
+  {id:2, topic:"Сыныптағы келісім", question:"Абылай хан сияқты ел бірлігін ойласаң, сыныптағы келіспеушілікті қалай шешер едің?", answer:"«Кім кінәлі?» деп емес, «Қалай келісеміз?» деп бастар едім. Екі жақты тыңдап, ортақ шешім ұсынар едім.", video:"videos/2.mp4"},
+  {id:3, topic:"Аймақтарды басқару", question:"Абылай хан аймақтарды басқару тәжірибесінен бүгін қандай сабақ алуға болады?", answer:"Әр аймақтың жағдайын ескеріп басқару қажет. Бәріне бірдей шешім әрдайым тиімді бола бермейді.", video:"videos/3.mp4"},
+  {id:4, topic:"Билер кеңесі", question:"Абылай хан билерге сүйенгендей, сен дауды шешуде кімнің кеңесіне жүгінер едің?", answer:"Дауды ушықтырмайтын, әділ сөйлейтін адамға жүгінер едім: мұғалімге, ата-анама немесе мектеп әкімшілігіне.", video:"videos/4.mp4"},
+  {id:5, topic:"Тәртіп", question:"Барымтаны тоқтату мен бүгінгі қоғамдық тәртіпті сақтаудың қандай ұқсастығы бар?", answer:"Барымта да, бүгінгі заңсыз әрекет те тыныштықты бұзады. Ортақ сабақ — дауды күшпен емес, әділ жолмен шешу.", video:"videos/5.mp4"},
+  {id:6, topic:"Кәсіптер", question:"Абылай хан қолдаған кәсіптердің қайсысын бүгін өз өңіріңде дамытар едің?", answer:"Өз өңірімде ұлттық қолөнерді дамытар едім. Шебердің бұйымын интернет арқылы сатып, дәстүрді табыс көзіне айналдырар едім.", video:"videos/6.mp4"},
+  {id:7, topic:"Жер тұтастығы", question:"Абылай хан жер тұтастығын қорғауы бүгінгі тәуелсіздікпен қалай байланысты?", answer:"Абылай хан жерді қорғауға ұмтылды, біз тәуелсіздікті білімімізбен, еңбегімізбен және жауапкершілігімізбен нығайтамыз.", video:"videos/7.mp4"},
+  {id:8, topic:"Сауда", question:"Абылай хан сауда саясаты бүгінгі көршілермен ынтымақтастыққа қандай үлгі береді?", answer:"Көрші — тек шекаралас ел емес, ортақ мүмкіндік. Өзара тиімді сауда байланысы ынтымақтастықты күшейтеді.", video:"videos/8.mp4"},
+  {id:9, topic:"Дербес шешім", question:"Абылай ханның дербес шешім қабылдауынан қандай сабақ аласың?", answer:"Кеңесті тыңдаймын, бірақ шешімді ойланып қабылдаймын. Дербестік — өз таңдауыңа жауап беру.", video:"videos/9.mp4"},
+  {id:10, topic:"Жайылымдар", question:"Абылай ханның қорғаған жайылымдарды бүгін қалай сақтауға болады?", answer:"Жайылымды кезекпен пайдаланып, шамадан тыс мал жаюға жол бермес едім. Жерге демалыс беру — болашаққа қор жинау.", video:"videos/10.mp4"},
+  {id:11, topic:"Келіссөз", question:"Абылай ханның келіссөз тәжірибесін күнделікті өмірде қалай қолданар едің?", answer:"Келіспеушілікте дауысымды емес, дәлелімді күшейтер едім. Қарсы жақты тыңдап, екеуімізге де тиімді шешім іздер едім.", video:"videos/11.mp4"},
+  {id:12, topic:"Бірлікті жалғастыру", question:"Абылай ханның дәуіріндегі ел бірлігін бүгін қандай ісіңмен жалғастыра аласың?", answer:"Бірлікті ұранмен емес, іспен көрсетер едім: шет қалған сыныптасымды топқа қосып, ортақ жұмысқа үлес қосар едім.", video:"videos/12.mp4"}
+];
+
+const LS_PROGRESS = "abylai_progress";
+
+/* ---------------- STATE ---------------- */
+let progress = loadProgress();
+let currentPairIndex = null;
+let currentCard = null;
+let reviewMode = false;
+let timerSeconds = 90;
+let timerInterval = null;
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(LS_PROGRESS);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return {};
+}
+function saveProgress(){ try{ localStorage.setItem(LS_PROGRESS, JSON.stringify(progress)); }catch(e){} }
+function pairLabel(i){
+  if(i===null || i===undefined) return "—";
+  return (i+1)+"-топ";
+}
+
+/* ---------------- SCREEN NAV ---------------- */
+const screens = {};
+document.querySelectorAll(".screen").forEach(s=> screens[s.id]=s);
+let currentScreenId = "screen-start";
+function showScreen(id){
+  Object.values(screens).forEach(s=>s.classList.remove("active"));
+  screens[id].classList.add("active");
+  currentScreenId = id;
+  if(id!=="screen-summary") stopParticles();
+}
+
+/* ---------------- START ---------------- */
+function refreshStartScreen(){
+  const hasProgress = Object.values(progress).some(p=>p.played);
+  document.getElementById("btnContinue").style.display = hasProgress ? "inline-block" : "none";
+}
+document.getElementById("btnStart").addEventListener("click", ()=>{
+  renderDrawScreen();
+  showScreen("screen-draw");
+});
+document.getElementById("btnContinue").addEventListener("click", ()=>{
+  renderDrawScreen();
+  showScreen("screen-draw");
+});
+
+/* ---------------- DRAW ---------------- */
+function usedPairIndexes(){
+  const used = new Set();
+  Object.values(progress).forEach(p=>{ if(p.played) used.add(p.pairIndex); });
+  return used;
+}
+function renderDrawScreen(){
+  const used = usedPairIndexes();
+  const select = document.getElementById("pairSelect");
+  select.innerHTML = "";
+  let anyLeft = false;
+  for(let i=0;i<12;i++){
+    if(used.has(i)) continue;
+    anyLeft = true;
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = pairLabel(i);
+    select.appendChild(opt);
+  }
+  if(anyLeft){
+    currentPairIndex = +select.value;
+    select.disabled = false;
+  } else {
+    currentPairIndex = null;
+    select.disabled = true;
+    const opt = document.createElement("option");
+    opt.textContent = "Барлық топтар ойнады";
+    select.appendChild(opt);
+  }
+  updateCurrentPairLabel();
+
+  const grid = document.getElementById("cardsGrid");
+  grid.innerHTML = "";
+  CARDS.forEach(card=>{
+    grid.appendChild(buildCardEl(card));
+  });
+
+  const allPlayed = CARDS.every(c=> progress[c.id] && progress[c.id].played);
+  const summaryBtn = document.getElementById("btnToSummary");
+  summaryBtn.classList.toggle("glow", allPlayed);
+}
+document.getElementById("pairSelect").addEventListener("change", (e)=>{
+  currentPairIndex = e.target.value==="" ? null : +e.target.value;
+  updateCurrentPairLabel();
+});
+function updateCurrentPairLabel(){
+  document.getElementById("currentPairName").textContent = currentPairIndex===null ? "—" : pairLabel(currentPairIndex);
+}
+
+function buildCardEl(card){
+  const entry = progress[card.id];
+  const played = !!(entry && entry.played);
+
+  const wrap = document.createElement("div");
+  wrap.className = "card" + (played ? " flipped played" : "");
+  wrap.dataset.id = card.id;
+
+  const inner = document.createElement("div");
+  inner.className = "card-inner";
+
+  const back = document.createElement("div");
+  back.className = "card-face card-back";
+  back.innerHTML = '<div class="num">'+card.id+'</div><svg viewBox="0 0 110 80"><use href="#horn-motif"/></svg><div class="mark">?</div>';
+
+  const front = document.createElement("div");
+  front.className = "card-face card-front";
+  const stars = entry ? (entry.stars||0) : 0;
+  let starsHtml = "";
+  for(let s=1;s<=3;s++) starsHtml += '<span class="'+(s<=stars?"star-on":"star-off")+'">★</span>';
+  front.innerHTML =
+    '<div class="topic">'+card.topic+'</div>'+
+    '<div class="names">'+(played ? pairLabel(entry.pairIndex) : "")+'</div>'+
+    '<div class="stars">'+starsHtml+'</div>';
+
+  inner.appendChild(back);
+  inner.appendChild(front);
+  wrap.appendChild(inner);
+
+  wrap.addEventListener("click", ()=>{
+    const entryNow = progress[card.id];
+    if(entryNow && entryNow.played){
+      openQuestion(card, entryNow.pairIndex, true);
+      return;
+    }
+    if(currentPairIndex===null){
+      wrap.animate([{transform:"translateX(0)"},{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"translateX(0)"}], {duration:300});
+      return;
+    }
+    progress[card.id] = {played:true, pairIndex: currentPairIndex, stars:0};
+    saveProgress();
+    wrap.classList.add("flipped","played");
+    setTimeout(()=>{ openQuestion(card, currentPairIndex, false); }, 1300);
+  });
+
+  return wrap;
+}
+
+document.getElementById("btnToSummary").addEventListener("click", ()=>{
+  renderSummaryScreen();
+  showScreen("screen-summary");
+});
+
+/* ---------------- QUESTION ---------------- */
+const videoEl = document.getElementById("qVideo");
+const videoStage = document.getElementById("videoStage");
+const videoFallback = document.getElementById("videoFallback");
+const questionStage = document.getElementById("questionStage");
+
+function openQuestion(card, pairIndex, isReview){
+  currentCard = card;
+  currentPairIndex = pairIndex;
+  reviewMode = !!isReview;
+
+  resetTimer();
+  const answerBox = document.getElementById("answerBox");
+  answerBox.classList.remove("open");
+  document.getElementById("answerText").textContent = "";
+  document.getElementById("btnRevealAnswer").disabled = false;
+  document.getElementById("btnRevealAnswer").textContent = "Үлгі жауапты ашу";
+
+  document.getElementById("qTopicLabel").textContent = card.topic;
+  document.getElementById("qNamesLabel").textContent = pairLabel(pairIndex);
+  document.getElementById("qTextLabel").textContent = card.question;
+  document.getElementById("fallbackQText").textContent = card.question;
+
+  const entry = progress[card.id] || {stars:0};
+  renderStars(entry.stars||0);
+
+  questionStage.classList.remove("show");
+  videoFallback.style.display = "none";
+  videoStage.style.display = "flex";
+
+  showScreen("screen-question");
+
+  if(reviewMode){
+    videoStage.style.display = "none";
+    questionStage.classList.add("show");
+  } else {
+    startVideoStage(card);
+  }
+}
+
+function startVideoStage(card){
+  videoStage.style.display = "flex";
+  videoFallback.style.display = "none";
+  questionStage.classList.remove("show");
+  videoEl.src = card.video;
+  videoEl.muted = false;
+  videoEl.currentTime = 0;
+
+  const onEnded = ()=>{ enterQuestionStage(); };
+  const onError = ()=>{ showVideoFallback(); };
+  videoEl.onended = onEnded;
+  videoEl.onerror = onError;
+
+  const playPromise = videoEl.play();
+  if(playPromise && playPromise.catch){
+    playPromise.catch(()=>{
+      videoEl.muted = true;
+      videoEl.play().catch(()=>{ showVideoFallback(); });
+    });
+  }
+}
+function showVideoFallback(){
+  videoStage.style.display = "none";
+  videoFallback.style.display = "flex";
+  setTimeout(enterQuestionStage, 1800);
+}
+function enterQuestionStage(){
+  videoStage.style.display = "none";
+  videoFallback.style.display = "none";
+  questionStage.classList.add("show");
+}
+document.getElementById("btnSkipVideo").addEventListener("click", ()=>{
+  videoEl.pause();
+  enterQuestionStage();
+});
+document.getElementById("btnReplayVideo").addEventListener("click", ()=>{
+  if(!currentCard) return;
+  startVideoStage(currentCard);
+});
+
+/* timer */
+function renderTimer(){
+  const m = Math.floor(timerSeconds/60);
+  const s = timerSeconds%60;
+  const el = document.getElementById("timerDisplay");
+  el.textContent = m+":"+String(s).padStart(2,"0");
+  el.classList.toggle("low", timerSeconds<=10 && timerSeconds>0);
+  el.classList.toggle("done", timerSeconds===0);
+}
+function resetTimer(){
+  clearInterval(timerInterval); timerInterval=null;
+  timerSeconds = 90;
+  renderTimer();
+}
+document.getElementById("btnTimerStart").addEventListener("click", ()=>{
+  if(timerInterval) return;
+  if(timerSeconds<=0) return;
+  timerInterval = setInterval(()=>{
+    timerSeconds--;
+    renderTimer();
+    if(timerSeconds<=0){
+      clearInterval(timerInterval); timerInterval=null;
+      playChime();
+    }
+  },1000);
+});
+document.getElementById("btnTimerStop").addEventListener("click", ()=>{
+  clearInterval(timerInterval); timerInterval=null;
+});
+document.getElementById("btnTimerReset").addEventListener("click", resetTimer);
+
+function playChime(){
+  try{
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    const ctx = new Ctx();
+    [880,660].forEach((freq, i)=>{
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "sine"; o.frequency.value = freq;
+      o.connect(g); g.connect(ctx.destination);
+      const start = ctx.currentTime + i*0.28;
+      g.gain.setValueAtTime(0.0001, start);
+      g.gain.exponentialRampToValueAtTime(0.22, start+0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, start+0.5);
+      o.start(start); o.stop(start+0.55);
+    });
+  }catch(e){}
+}
+
+/* answer reveal */
+document.getElementById("btnRevealAnswer").addEventListener("click", function(){
+  if(!currentCard) return;
+  document.getElementById("answerText").textContent = currentCard.answer;
+  document.getElementById("answerBox").classList.add("open");
+  this.disabled = true;
+  this.textContent = "Жауап ашылды";
+});
+
+/* stars */
+function renderStars(n){
+  document.querySelectorAll("#starsRow .star-btn").forEach(btn=>{
+    btn.classList.toggle("on", +btn.dataset.star <= n);
+  });
+}
+document.querySelectorAll("#starsRow .star-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    if(!currentCard) return;
+    const n = +btn.dataset.star;
+    const entry = progress[currentCard.id] || {played:true, pairIndex:currentPairIndex};
+    entry.stars = n;
+    entry.played = true;
+    if(entry.pairIndex===undefined || entry.pairIndex===null) entry.pairIndex = currentPairIndex;
+    progress[currentCard.id] = entry;
+    saveProgress();
+    renderStars(n);
+  });
+});
+
+document.getElementById("btnBackToDraw").addEventListener("click", ()=>{
+  videoEl.pause();
+  clearInterval(timerInterval); timerInterval=null;
+  questionStage.classList.remove("show");
+  videoStage.style.display = "none";
+  videoFallback.style.display = "none";
+  renderDrawScreen();
+  showScreen("screen-draw");
+});
+
+/* ---------------- SUMMARY ---------------- */
+function renderSummaryScreen(){
+  const body = document.getElementById("summaryBody");
+  body.innerHTML = "";
+  CARDS.forEach(card=>{
+    const entry = progress[card.id];
+    const tr = document.createElement("tr");
+    const played = entry && entry.played;
+    const stars = played ? (entry.stars||0) : 0;
+    let starsHtml = "—";
+    if(played){
+      starsHtml = "";
+      for(let s=1;s<=3;s++) starsHtml += (s<=stars ? "★" : "☆");
+    }
+    tr.innerHTML =
+      "<td>"+card.id+"</td>"+
+      "<td>"+(played ? pairLabel(entry.pairIndex) : "—")+"</td>"+
+      "<td>"+card.topic+"</td>"+
+      '<td class="sum-stars">'+starsHtml+"</td>";
+    body.appendChild(tr);
+  });
+  startParticles();
+}
+document.getElementById("btnSummaryBack").addEventListener("click", ()=>{
+  renderDrawScreen();
+  showScreen("screen-draw");
+});
+
+/* particles */
+let particleInterval = null;
+function startParticles(){
+  stopParticles();
+  const host = document.getElementById("particles");
+  particleInterval = setInterval(()=>{
+    const p = document.createElement("div");
+    p.className = "particle";
+    const size = 4 + Math.random()*7;
+    p.style.width = size+"px";
+    p.style.height = size+"px";
+    p.style.left = Math.random()*100+"vw";
+    p.style.setProperty("--drift", (Math.random()*120-60)+"px");
+    const dur = 4 + Math.random()*3;
+    p.style.animationDuration = dur+"s";
+    host.appendChild(p);
+    setTimeout(()=>p.remove(), dur*1000+200);
+  }, 220);
+}
+function stopParticles(){
+  if(particleInterval){ clearInterval(particleInterval); particleInterval=null; }
+  document.getElementById("particles").innerHTML = "";
+}
+
+/* ---------------- RESTART ---------------- */
+document.getElementById("restartBtn").addEventListener("click", ()=>{
+  const ok = confirm("Прогресті тазалап, басынан бастауға сенімдісіз бе?");
+  if(!ok) return;
+  progress = {};
+  saveProgress();
+  videoEl.pause();
+  clearInterval(timerInterval); timerInterval=null;
+  questionStage.classList.remove("show");
+  videoStage.style.display = "none";
+  videoFallback.style.display = "none";
+  stopParticles();
+  refreshStartScreen();
+  showScreen("screen-start");
+});
+
+/* ---------------- KEYBOARD ---------------- */
+document.addEventListener("keydown", (e)=>{
+  const tag = (e.target.tagName||"").toLowerCase();
+  if(tag==="input" || tag==="textarea") return;
+
+  if(e.key==="Escape"){
+    if(currentScreenId==="screen-question"){
+      document.getElementById("btnBackToDraw").click();
+    } else if(currentScreenId==="screen-summary"){
+      document.getElementById("btnSummaryBack").click();
+    } else if(currentScreenId==="screen-draw"){
+      showScreen("screen-start");
+    }
+  } else if(e.code==="Space"){
+    if(currentScreenId==="screen-question" && videoStage.style.display!=="none"){
+      e.preventDefault();
+      if(videoEl.paused) videoEl.play(); else videoEl.pause();
+    }
+  } else if(e.key==="f" || e.key==="F"){
+    toggleFullscreen();
+  }
+});
+function toggleFullscreen(){
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen().catch(()=>{});
+  } else {
+    document.exitFullscreen().catch(()=>{});
+  }
+}
+
+/* ---------------- INIT ---------------- */
+refreshStartScreen();
+showScreen("screen-start");
+
+})();
+</script>
+</body>
+</html>
