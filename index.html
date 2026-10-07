@@ -64,13 +64,6 @@ button{font-family:var(--font-body); cursor:pointer;}
 .screen::-webkit-scrollbar{width:10px;}
 .screen::-webkit-scrollbar-thumb{background:var(--maroon); border-radius:6px;}
 
-.eyebrow{
-  letter-spacing:.01em; color:var(--gold-light);
-  font-family:var(--font-head); font-style:italic; font-weight:600;
-  font-size:clamp(.95rem,1.6vw,1.2rem); line-height:1.5;
-  max-width:760px; margin:0 auto 1.2rem;
-}
-
 /* ---------- buttons ---------- */
 .btn{
   border:2px solid var(--gold);
@@ -114,14 +107,10 @@ button{font-family:var(--font-body); cursor:pointer;}
 /* ================= START ================= */
 #screen-start .title-block{text-align:center; max-width:900px;}
 #screen-start h1{
-  font-size:clamp(2.2rem,5.2vw,4.4rem);
+  font-size:clamp(1.15rem,2.4vw,1.8rem);
   color:var(--gold-light);
   text-shadow:0 2px 24px rgba(212,162,76,.35);
-  line-height:1.15;
-}
-#screen-start .subtitle{
-  margin-top:1.4rem; font-size:clamp(1.1rem,1.8vw,1.6rem);
-  color:var(--cream); opacity:.9; letter-spacing:.03em;
+  line-height:1.35;
 }
 #screen-start .cta{margin-top:2.2rem; display:flex; flex-direction:column; gap:1rem; align-items:center;}
 .divider{
@@ -335,13 +324,11 @@ table.summary-table tr:last-child td{border-bottom:none;}
 <!-- ================= START ================= -->
 <section id="screen-start" class="screen">
   <div class="title-block">
-    <div class="eyebrow">«Мені хан етіп сайлаған халқым, олай болса, орыс патшасының тағына тағзым етіп, ант беруге міндетті емеспін»</div>
-    <h1>Абылай хан мұрасы:<br>бүгінгі күнге сабақ</h1>
+    <h1>«Мені хан етіп сайлаған халқым, олай болса, орыс патшасының тағына тағзым етіп, ант беруге міндетті емеспін»</h1>
     <div class="author-frame"><img src="images/abylai-khan.jpg" alt="Абылай хан"></div>
     <div class="author-name">«Ол (Абылай — авт.) қалыптасқан нақты жағдайларға қарай бірде Ресейге, бірде Қытайға, енді бірде Жоңғарияға шын берілген болып көріне білді, ал шын мәнінде ешкімге де бас иген жоқ»</div>
     <div class="author-role">— И. Крафт</div>
     <div class="divider"></div>
-    <p class="subtitle">12 топ — 12 сұрақ — 12 сабақ</p>
     <div class="cta">
       <button class="btn primary" id="btnStart">Сабақты бастау</button>
       <button class="btn ghost small" id="btnContinue" style="display:none;">Сабақты жалғастыру</button>
@@ -442,7 +429,7 @@ const CARDS = [
   {id:7, topic:"Жер тұтастығы", question:"Абылай хан жер тұтастығын қорғауы бүгінгі тәуелсіздікпен қалай байланысты?", answer:"Абылай хан жерді қорғауға ұмтылды, біз тәуелсіздікті білімімізбен, еңбегімізбен және жауапкершілігімізбен нығайтамыз.", video:"videos/7.mp4"},
   {id:8, topic:"Сауда", question:"Абылай хан сауда саясаты бүгінгі көршілермен ынтымақтастыққа қандай үлгі береді?", answer:"Көрші — тек шекаралас ел емес, ортақ мүмкіндік. Өзара тиімді сауда байланысы ынтымақтастықты күшейтеді.", video:"videos/8.mp4"},
   {id:9, topic:"Дербес шешім", question:"Абылай ханның дербес шешім қабылдауынан қандай сабақ аласың?", answer:"Кеңесті тыңдаймын, бірақ шешімді ойланып қабылдаймын. Дербестік — өз таңдауыңа жауап беру.", video:"videos/9.mp4"},
-  {id:10, topic:"Жайылымдар", question:"Абылай ханның қорғаған жайылымдарды бүгін қалай сақтауға болады?", answer:"Жайылымды кезекпен пайдаланып, шамадан тыс мал жаюға жол бермес едім. Жерге демалыс беру — болашаққа қор жинау.", video:"videos/10.mp4"},
+  {id:10, topic:"Бірлік саясаты", question:"Абылай хан ел бірлігін нығайтуға ұмтылды. Бүгін сіз ел бірлігін сақтау үшін қандай шешім ұсынар едің?", answer:"Абылай ханның ел бірлігін нығайтуға бағытталған ішкі саясаты мен еліміздің Президенті Қасым-Жомарт Тоқаевтың саясатында ортақ мақсат бар. Абылай хан билерге сүйеніп, руаралық дауларды реттеуге ұмтылса, қазіргі Президент «Заң мен тәртіп» қағидаты арқылы қоғамдағы әділдік пен тұрақтылықты нығайтуға мән беріп отыр. Абылай хан егіншілік пен сауданы қолдап, халықтың тұрмысын жақсартуды көздеді. Бүгінде Президенттің ауылдарды дамытуға, ауыл шаруашылығын қолдауға бағытталған саясаты осы мақсатпен үндеседі. Яғни екі кезеңдегі ортақ ұстаным — халықтың әл-ауқатын арттыру арқылы елдің бірлігін бекемдеу.", video:"videos/10.mp4"},
   {id:11, topic:"Келіссөз", question:"Абылай ханның келіссөз тәжірибесін күнделікті өмірде қалай қолданар едің?", answer:"Келіспеушілікте дауысымды емес, дәлелімді күшейтер едім. Қарсы жақты тыңдап, екеуімізге де тиімді шешім іздер едім.", video:"videos/11.mp4"},
   {id:12, topic:"Бірлікті жалғастыру", question:"Абылай ханның дәуіріндегі ел бірлігін бүгін қандай ісіңмен жалғастыра аласың?", answer:"Бірлікті ұранмен емес, іспен көрсетер едім: шет қалған сыныптасымды топқа қосып, ортақ жұмысқа үлес қосар едім.", video:"videos/12.mp4"}
 ];
