@@ -65,8 +65,10 @@ button{font-family:var(--font-body); cursor:pointer;}
 .screen::-webkit-scrollbar-thumb{background:var(--maroon); border-radius:6px;}
 
 .eyebrow{
-  letter-spacing:.35em; text-transform:uppercase; color:var(--gold);
-  font-size:clamp(.8rem,1.1vw,1rem); font-weight:600; margin-bottom:1.2rem;
+  letter-spacing:.01em; color:var(--gold-light);
+  font-family:var(--font-head); font-style:italic; font-weight:600;
+  font-size:clamp(.95rem,1.6vw,1.2rem); line-height:1.5;
+  max-width:760px; margin:0 auto 1.2rem;
 }
 
 /* ---------- buttons ---------- */
@@ -139,11 +141,12 @@ button{font-family:var(--font-body); cursor:pointer;}
 }
 .author-frame img{width:100%; height:100%; object-fit:cover; border-radius:8px; display:block;}
 .author-name{
-  margin-top:.8rem; font-family:var(--font-head); font-weight:700;
-  font-size:clamp(1.05rem,1.6vw,1.35rem); color:var(--gold-light); letter-spacing:.02em;
+  margin-top:.8rem; font-family:var(--font-head); font-weight:600; font-style:italic;
+  font-size:clamp(.95rem,1.5vw,1.2rem); color:var(--gold-light); line-height:1.5;
+  max-width:640px; margin-left:auto; margin-right:auto;
 }
 .author-role{
-  margin-top:.2rem; font-size:clamp(.78rem,1vw,.92rem); color:var(--cream); opacity:.75;
+  margin-top:.4rem; font-size:clamp(.78rem,1vw,.92rem); color:var(--cream); opacity:.75;
 }
 
 /* ================= DRAW ================= */
@@ -332,11 +335,11 @@ table.summary-table tr:last-child td{border-bottom:none;}
 <!-- ================= START ================= -->
 <section id="screen-start" class="screen">
   <div class="title-block">
-    <div class="eyebrow">Ашық тарих сабағы</div>
+    <div class="eyebrow">«Мені хан етіп сайлаған халқым, олай болса, орыс патшасының тағына тағзым етіп, ант беруге міндетті емеспін»</div>
     <h1>Абылай хан мұрасы:<br>бүгінгі күнге сабақ</h1>
-    <div class="author-frame"><img src="images/adilbek-kyzdarbekov.jpg" alt="Әділбек Қыздарбеков"></div>
-    <div class="author-name">Әділбек Қыздарбеков</div>
-    <div class="author-role">Қазақстан тарихы бойынша тарихшы</div>
+    <div class="author-frame"><img src="images/abylai-khan.jpg" alt="Абылай хан"></div>
+    <div class="author-name">«Ол (Абылай — авт.) қалыптасқан нақты жағдайларға қарай бірде Ресейге, бірде Қытайға, енді бірде Жоңғарияға шын берілген болып көріне білді, ал шын мәнінде ешкімге де бас иген жоқ»</div>
+    <div class="author-role">— И. Крафт</div>
     <div class="divider"></div>
     <p class="subtitle">12 топ — 12 сұрақ — 12 сабақ</p>
     <div class="cta">
