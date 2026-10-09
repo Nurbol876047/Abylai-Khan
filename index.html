@@ -153,9 +153,28 @@ button{font-family:var(--font-body); cursor:pointer;}
   border-radius:999px; padding:.5em 1.2em; font-size:1rem; font-family:var(--font-body);
 }
 .cards-grid{
-  display:grid; grid-template-columns:repeat(4,1fr);
-  gap:1.1vw; width:100%; max-width:1200px; margin:0 auto;
-  flex:1; align-content:center;
+  display:flex; flex-direction:column; gap:1.3rem;
+  width:100%; max-width:1200px; margin:0 auto;
+}
+.group-section{
+  border:1.5px solid rgba(212,162,76,.22); border-radius:16px;
+  padding:.9rem 1.1rem 1.2rem; background:rgba(212,162,76,.03);
+  transition:border-color .3s ease, box-shadow .3s ease, background .3s ease;
+}
+.group-section.active{
+  border-color:var(--gold); background:rgba(212,162,76,.09);
+  box-shadow:0 0 26px rgba(212,162,76,.22);
+}
+.group-section-header{
+  font-family:var(--font-head); font-weight:700; color:var(--gold-light);
+  font-size:clamp(1rem,1.5vw,1.3rem); margin-bottom:.75rem; text-align:center;
+  letter-spacing:.02em; opacity:.85;
+}
+.group-section.active .group-section-header{
+  opacity:1; text-shadow:0 0 14px rgba(212,162,76,.6);
+}
+.group-cards-row{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1.1vw;
 }
 .card{aspect-ratio:3/4; perspective:1400px; cursor:pointer;}
 .card.played{cursor:default;}
@@ -188,7 +207,6 @@ button{font-family:var(--font-body); cursor:pointer;}
   border:2px solid var(--gold-light);
 }
 .card-front .topic{font-family:var(--font-head); font-weight:700; font-size:clamp(.85rem,1.25vw,1.15rem); line-height:1.25;}
-.card-front .names{margin-top:.5rem; font-size:clamp(.68rem,.95vw,.85rem); font-weight:600; opacity:.85;}
 .card-front .stars{margin-top:.5rem; font-size:clamp(.9rem,1.3vw,1.2rem); letter-spacing:.15em;}
 .star-on{color:var(--maroon-dark);}
 .star-off{color:rgba(58,16,16,.25);}
@@ -289,13 +307,8 @@ table.summary-table tr:last-child td{border-bottom:none;}
   100%{transform:translateY(-100vh) translateX(var(--drift,0px)) scale(.4); opacity:0;}
 }
 
-.group-tag{
-  margin-top:.35rem; font-size:clamp(.68rem,.9vw,.8rem); font-weight:700; letter-spacing:.04em;
-  text-transform:uppercase; opacity:.8;
-}
-
 @media (max-width:900px){
-  .cards-grid{grid-template-columns:repeat(2,1fr);}
+  .group-cards-row{grid-template-columns:repeat(2,1fr);}
 }
 </style>
 </head>
@@ -510,8 +523,23 @@ function renderDrawScreen(){
 
   const grid = document.getElementById("cardsGrid");
   grid.innerHTML = "";
-  CARDS.filter(c=>c.group===currentGroupIdx).forEach(card=>{
-    grid.appendChild(buildCardEl(card));
+  GROUPS.forEach(g=>{
+    const section = document.createElement("div");
+    section.className = "group-section" + (g.id===currentGroupIdx ? " active" : "");
+
+    const header = document.createElement("div");
+    header.className = "group-section-header";
+    header.textContent = g.name;
+    section.appendChild(header);
+
+    const row = document.createElement("div");
+    row.className = "group-cards-row";
+    CARDS.filter(c=>c.group===g.id).forEach(card=>{
+      row.appendChild(buildCardEl(card));
+    });
+    section.appendChild(row);
+
+    grid.appendChild(section);
   });
 
   const allPlayed = CARDS.every(c=> progress[c.id] && progress[c.id].played);
