@@ -281,12 +281,17 @@ button{font-family:var(--font-body); cursor:pointer;}
 .summary-wrap h2{
   font-size:clamp(1.6rem,3vw,2.6rem); color:var(--gold-light); line-height:1.3;
 }
+.table-scroll{
+  width:100%; margin-top:2rem; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  border:1px solid rgba(212,162,76,.3); border-radius:12px;
+}
 table.summary-table{
-  width:100%; border-collapse:collapse; margin-top:2rem;
-  background:rgba(245,234,214,.03); border:1px solid rgba(212,162,76,.3); border-radius:12px; overflow:hidden;
+  width:100%; min-width:520px; border-collapse:collapse;
+  background:rgba(245,234,214,.03);
 }
 table.summary-table th, table.summary-table td{
   padding:.75em 1em; border-bottom:1px solid rgba(212,162,76,.18); font-size:clamp(.85rem,1.1vw,1.05rem);
+  white-space:nowrap;
 }
 table.summary-table th{
   background:rgba(212,162,76,.12); color:var(--gold); text-transform:uppercase; letter-spacing:.08em; font-size:.8rem;
@@ -309,6 +314,10 @@ table.summary-table tr:last-child td{border-bottom:none;}
 
 @media (max-width:900px){
   .group-cards-row{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width:600px){
+  #screen-draw, #screen-summary{padding-top:76px;}
+  #restartBtn{font-size:.75rem; padding:.45em 1em;}
 }
 </style>
 </head>
@@ -419,12 +428,14 @@ table.summary-table tr:last-child td{border-bottom:none;}
   <div class="particles" id="particles"></div>
   <div class="summary-wrap">
     <h2>Рахмет! Абылай хан мұрасы — біздің болашағымыз</h2>
-    <table class="summary-table">
-      <thead>
-        <tr><th>№</th><th>Топ</th><th>Тақырып</th><th>Жұлдыздар</th></tr>
-      </thead>
-      <tbody id="summaryBody"></tbody>
-    </table>
+    <div class="table-scroll">
+      <table class="summary-table">
+        <thead>
+          <tr><th>№</th><th>Топ</th><th>Тақырып</th><th>Жұлдыздар</th></tr>
+        </thead>
+        <tbody id="summaryBody"></tbody>
+      </table>
+    </div>
     <div class="summary-actions">
       <button class="btn" id="btnSummaryBack">← Жеребеге оралу</button>
     </div>
