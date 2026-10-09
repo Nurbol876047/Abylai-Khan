@@ -153,9 +153,9 @@ button{font-family:var(--font-body); cursor:pointer;}
   border-radius:999px; padding:.5em 1.2em; font-size:1rem; font-family:var(--font-body);
 }
 .cards-grid{
-  display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(3,1fr);
+  display:grid; grid-template-columns:repeat(4,1fr);
   gap:1.1vw; width:100%; max-width:1200px; margin:0 auto;
-  flex:1;
+  flex:1; align-content:center;
 }
 .card{aspect-ratio:3/4; perspective:1400px; cursor:pointer;}
 .card.played{cursor:default;}
@@ -289,8 +289,13 @@ table.summary-table tr:last-child td{border-bottom:none;}
   100%{transform:translateY(-100vh) translateX(var(--drift,0px)) scale(.4); opacity:0;}
 }
 
+.group-tag{
+  margin-top:.35rem; font-size:clamp(.68rem,.9vw,.8rem); font-weight:700; letter-spacing:.04em;
+  text-transform:uppercase; opacity:.8;
+}
+
 @media (max-width:900px){
-  .cards-grid{grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(4,1fr);}
+  .cards-grid{grid-template-columns:repeat(2,1fr);}
 }
 </style>
 </head>
@@ -419,26 +424,32 @@ table.summary-table tr:last-child td{border-bottom:none;}
 "use strict";
 
 /* ---------------- DATA ---------------- */
+const GROUPS = [
+  {id:0, name:"Саясат зерттеушілері"},
+  {id:1, name:"Дипломаттар"},
+  {id:2, name:"Мемлекет қорғаушылары"}
+];
+
 const CARDS = [
-  {id:1, topic:"Ел бірлігі", question:"Абылай хан елді біріктіру саясаты бүгінгі Қазақстан үшін неліктен маңызды?", answer:"Ел бірлігі — мемлекеттің қорғаны. Абылай хан жүздерді біріктіруге ұмтылса, бүгін біз ортақ мақсатқа жұмылуымыз керек.", video:"videos/1.mp4"},
-  {id:2, topic:"Сыныптағы келісім", question:"Абылай хан сияқты ел бірлігін ойласаң, сыныптағы келіспеушілікті қалай шешер едің?", answer:"«Кім кінәлі?» деп емес, «Қалай келісеміз?» деп бастар едім. Екі жақты тыңдап, ортақ шешім ұсынар едім.", video:"videos/2.mp4"},
-  {id:3, topic:"Аймақтарды басқару", question:"Абылай хан аймақтарды басқару тәжірибесінен бүгін қандай сабақ алуға болады?", answer:"Әр аймақтың жағдайын ескеріп басқару қажет. Бәріне бірдей шешім әрдайым тиімді бола бермейді.", video:"videos/3.mp4"},
-  {id:4, topic:"Билер кеңесі", question:"Абылай хан билерге сүйенгендей, сен дауды шешуде кімнің кеңесіне жүгінер едің?", answer:"Дауды ушықтырмайтын, әділ сөйлейтін адамға жүгінер едім: мұғалімге, ата-анама немесе мектеп әкімшілігіне.", video:"videos/4.mp4"},
-  {id:5, topic:"Тәртіп", question:"Барымтаны тоқтату мен бүгінгі қоғамдық тәртіпті сақтаудың қандай ұқсастығы бар?", answer:"Барымта да, бүгінгі заңсыз әрекет те тыныштықты бұзады. Ортақ сабақ — дауды күшпен емес, әділ жолмен шешу.", video:"videos/5.mp4"},
-  {id:6, topic:"Кәсіптер", question:"Абылай хан қолдаған кәсіптердің қайсысын бүгін өз өңіріңде дамытар едің?", answer:"Өз өңірімде ұлттық қолөнерді дамытар едім. Шебердің бұйымын интернет арқылы сатып, дәстүрді табыс көзіне айналдырар едім.", video:"videos/6.mp4"},
-  {id:7, topic:"Жер тұтастығы", question:"Абылай хан жер тұтастығын қорғауы бүгінгі тәуелсіздікпен қалай байланысты?", answer:"Абылай хан жерді қорғауға ұмтылды, біз тәуелсіздікті білімімізбен, еңбегімізбен және жауапкершілігімізбен нығайтамыз.", video:"videos/7.mp4"},
-  {id:8, topic:"Сауда", question:"Абылай хан сауда саясаты бүгінгі көршілермен ынтымақтастыққа қандай үлгі береді?", answer:"Көрші — тек шекаралас ел емес, ортақ мүмкіндік. Өзара тиімді сауда байланысы ынтымақтастықты күшейтеді.", video:"videos/8.mp4"},
-  {id:9, topic:"Дербес шешім", question:"Абылай ханның дербес шешім қабылдауынан қандай сабақ аласың?", answer:"Кеңесті тыңдаймын, бірақ шешімді ойланып қабылдаймын. Дербестік — өз таңдауыңа жауап беру.", video:"videos/9.mp4"},
-  {id:10, topic:"Бірлік саясаты", question:"Абылай хан ел бірлігін нығайтуға ұмтылды. Бүгін сіз ел бірлігін сақтау үшін қандай шешім ұсынар едің?", answer:"Абылай ханның ел бірлігін нығайтуға бағытталған ішкі саясаты мен еліміздің Президенті Қасым-Жомарт Тоқаевтың саясатында ортақ мақсат бар. Абылай хан билерге сүйеніп, руаралық дауларды реттеуге ұмтылса, қазіргі Президент «Заң мен тәртіп» қағидаты арқылы қоғамдағы әділдік пен тұрақтылықты нығайтуға мән беріп отыр. Абылай хан егіншілік пен сауданы қолдап, халықтың тұрмысын жақсартуды көздеді. Бүгінде Президенттің ауылдарды дамытуға, ауыл шаруашылығын қолдауға бағытталған саясаты осы мақсатпен үндеседі. Яғни екі кезеңдегі ортақ ұстаным — халықтың әл-ауқатын арттыру арқылы елдің бірлігін бекемдеу.", video:"videos/10.mp4"},
-  {id:11, topic:"Келіссөз", question:"Абылай ханның келіссөз тәжірибесін күнделікті өмірде қалай қолданар едің?", answer:"Келіспеушілікте дауысымды емес, дәлелімді күшейтер едім. Қарсы жақты тыңдап, екеуімізге де тиімді шешім іздер едім.", video:"videos/11.mp4"},
-  {id:12, topic:"Бірлікті жалғастыру", question:"Абылай ханның дәуіріндегі ел бірлігін бүгін қандай ісіңмен жалғастыра аласың?", answer:"Бірлікті ұранмен емес, іспен көрсетер едім: шет қалған сыныптасымды топқа қосып, ортақ жұмысқа үлес қосар едім.", video:"videos/12.mp4"}
+  {id:1, group:0, topic:"Ел бірлігі", question:"Абылай хан елді біріктіру саясаты бүгінгі Қазақстан үшін неліктен маңызды?", answer:"Ел бірлігі — мемлекеттің қорғаны. Абылай хан жүздерді біріктіруге ұмтылса, бүгін біз ортақ мақсатқа жұмылуымыз керек.", video:"videos/1.mp4"},
+  {id:2, group:1, topic:"Сыныптағы келісім", question:"Абылай хан сияқты ел бірлігін ойласаң, сыныптағы келіспеушілікті қалай шешер едің?", answer:"«Кім кінәлі?» деп емес, «Қалай келісеміз?» деп бастар едім. Екі жақты тыңдап, ортақ шешім ұсынар едім.", video:"videos/2.mp4"},
+  {id:3, group:0, topic:"Аймақтарды басқару", question:"Абылай хан аймақтарды басқару тәжірибесінен бүгін қандай сабақ алуға болады?", answer:"Әр аймақтың жағдайын ескеріп басқару қажет. Бәріне бірдей шешім әрдайым тиімді бола бермейді.", video:"videos/3.mp4"},
+  {id:4, group:2, topic:"Билер кеңесі", question:"Абылай хан билерге сүйенгендей, сен дауды шешуде кімнің кеңесіне жүгінер едің?", answer:"Дауды ушықтырмайтын, әділ сөйлейтін адамға жүгінер едім: мұғалімге, ата-анама немесе мектеп әкімшілігіне.", video:"videos/4.mp4"},
+  {id:5, group:2, topic:"Тәртіп", question:"Барымтаны тоқтату мен бүгінгі қоғамдық тәртіпті сақтаудың қандай ұқсастығы бар?", answer:"Барымта да, бүгінгі заңсыз әрекет те тыныштықты бұзады. Ортақ сабақ — дауды күшпен емес, әділ жолмен шешу.", video:"videos/5.mp4"},
+  {id:6, group:1, topic:"Кәсіптер", question:"Абылай хан қолдаған кәсіптердің қайсысын бүгін өз өңіріңде дамытар едің?", answer:"Өз өңірімде ұлттық қолөнерді дамытар едім. Шебердің бұйымын интернет арқылы сатып, дәстүрді табыс көзіне айналдырар едім.", video:"videos/6.mp4"},
+  {id:7, group:2, topic:"Жер тұтастығы", question:"Абылай хан жер тұтастығын қорғауы бүгінгі тәуелсіздікпен қалай байланысты?", answer:"Абылай хан жерді қорғауға ұмтылды, біз тәуелсіздікті білімімізбен, еңбегімізбен және жауапкершілігімізбен нығайтамыз.", video:"videos/7.mp4"},
+  {id:8, group:1, topic:"Сауда", question:"Абылай хан сауда саясаты бүгінгі көршілермен ынтымақтастыққа қандай үлгі береді?", answer:"Көрші — тек шекаралас ел емес, ортақ мүмкіндік. Өзара тиімді сауда байланысы ынтымақтастықты күшейтеді.", video:"videos/8.mp4"},
+  {id:9, group:0, topic:"Дербес шешім", question:"Абылай ханның дербес шешім қабылдауынан қандай сабақ аласың?", answer:"Кеңесті тыңдаймын, бірақ шешімді ойланып қабылдаймын. Дербестік — өз таңдауыңа жауап беру.", video:"videos/9.mp4"},
+  {id:10, group:0, topic:"Бірлік саясаты", question:"Абылай хан ел бірлігін нығайтуға ұмтылды. Бүгін сіз ел бірлігін сақтау үшін қандай шешім ұсынар едің?", answer:"Абылай ханның ел бірлігін нығайтуға бағытталған ішкі саясаты мен еліміздің Президенті Қасым-Жомарт Тоқаевтың саясатында ортақ мақсат бар. Абылай хан билерге сүйеніп, руаралық дауларды реттеуге ұмтылса, қазіргі Президент «Заң мен тәртіп» қағидаты арқылы қоғамдағы әділдік пен тұрақтылықты нығайтуға мән беріп отыр. Абылай хан егіншілік пен сауданы қолдап, халықтың тұрмысын жақсартуды көздеді. Бүгінде Президенттің ауылдарды дамытуға, ауыл шаруашылығын қолдауға бағытталған саясаты осы мақсатпен үндеседі. Яғни екі кезеңдегі ортақ ұстаным — халықтың әл-ауқатын арттыру арқылы елдің бірлігін бекемдеу.", video:"videos/10.mp4"},
+  {id:11, group:1, topic:"Келіссөз", question:"Абылай ханның келіссөз тәжірибесін күнделікті өмірде қалай қолданар едің?", answer:"Келіспеушілікте дауысымды емес, дәлелімді күшейтер едім. Қарсы жақты тыңдап, екеуімізге де тиімді шешім іздер едім.", video:"videos/11.mp4"},
+  {id:12, group:2, topic:"Бірлікті жалғастыру", question:"Абылай ханның дәуіріндегі ел бірлігін бүгін қандай ісіңмен жалғастыра аласың?", answer:"Бірлікті ұранмен емес, іспен көрсетер едім: шет қалған сыныптасымды топқа қосып, ортақ жұмысқа үлес қосар едім.", video:"videos/12.mp4"}
 ];
 
 const LS_PROGRESS = "abylai_progress";
 
 /* ---------------- STATE ---------------- */
 let progress = loadProgress();
-let currentPairIndex = null;
+let currentGroupIdx = null;
 let currentCard = null;
 let reviewMode = false;
 let timerSeconds = 90;
@@ -452,9 +463,9 @@ function loadProgress(){
   return {};
 }
 function saveProgress(){ try{ localStorage.setItem(LS_PROGRESS, JSON.stringify(progress)); }catch(e){} }
-function pairLabel(i){
-  if(i===null || i===undefined) return "—";
-  return (i+1)+"-топ";
+function groupLabel(i){
+  if(i===null || i===undefined || !GROUPS[i]) return "—";
+  return GROUPS[i].name;
 }
 
 /* ---------------- SCREEN NAV ---------------- */
@@ -483,39 +494,23 @@ document.getElementById("btnContinue").addEventListener("click", ()=>{
 });
 
 /* ---------------- DRAW ---------------- */
-function usedPairIndexes(){
-  const used = new Set();
-  Object.values(progress).forEach(p=>{ if(p.played) used.add(p.pairIndex); });
-  return used;
-}
 function renderDrawScreen(){
-  const used = usedPairIndexes();
+  if(currentGroupIdx===null || currentGroupIdx===undefined) currentGroupIdx = 0;
+
   const select = document.getElementById("pairSelect");
   select.innerHTML = "";
-  let anyLeft = false;
-  for(let i=0;i<12;i++){
-    if(used.has(i)) continue;
-    anyLeft = true;
+  GROUPS.forEach(g=>{
     const opt = document.createElement("option");
-    opt.value = i;
-    opt.textContent = pairLabel(i);
+    opt.value = g.id;
+    opt.textContent = g.name;
     select.appendChild(opt);
-  }
-  if(anyLeft){
-    currentPairIndex = +select.value;
-    select.disabled = false;
-  } else {
-    currentPairIndex = null;
-    select.disabled = true;
-    const opt = document.createElement("option");
-    opt.textContent = "Барлық топтар ойнады";
-    select.appendChild(opt);
-  }
+  });
+  select.value = currentGroupIdx;
   updateCurrentPairLabel();
 
   const grid = document.getElementById("cardsGrid");
   grid.innerHTML = "";
-  CARDS.forEach(card=>{
+  CARDS.filter(c=>c.group===currentGroupIdx).forEach(card=>{
     grid.appendChild(buildCardEl(card));
   });
 
@@ -524,11 +519,11 @@ function renderDrawScreen(){
   summaryBtn.classList.toggle("glow", allPlayed);
 }
 document.getElementById("pairSelect").addEventListener("change", (e)=>{
-  currentPairIndex = e.target.value==="" ? null : +e.target.value;
-  updateCurrentPairLabel();
+  currentGroupIdx = +e.target.value;
+  renderDrawScreen();
 });
 function updateCurrentPairLabel(){
-  document.getElementById("currentPairName").textContent = currentPairIndex===null ? "—" : pairLabel(currentPairIndex);
+  document.getElementById("currentPairName").textContent = groupLabel(currentGroupIdx);
 }
 
 function buildCardEl(card){
@@ -553,7 +548,6 @@ function buildCardEl(card){
   for(let s=1;s<=3;s++) starsHtml += '<span class="'+(s<=stars?"star-on":"star-off")+'">★</span>';
   front.innerHTML =
     '<div class="topic">'+card.topic+'</div>'+
-    '<div class="names">'+(played ? pairLabel(entry.pairIndex) : "")+'</div>'+
     '<div class="stars">'+starsHtml+'</div>';
 
   inner.appendChild(back);
@@ -563,17 +557,13 @@ function buildCardEl(card){
   wrap.addEventListener("click", ()=>{
     const entryNow = progress[card.id];
     if(entryNow && entryNow.played){
-      openQuestion(card, entryNow.pairIndex, true);
+      openQuestion(card, true);
       return;
     }
-    if(currentPairIndex===null){
-      wrap.animate([{transform:"translateX(0)"},{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"translateX(0)"}], {duration:300});
-      return;
-    }
-    progress[card.id] = {played:true, pairIndex: currentPairIndex, stars:0};
+    progress[card.id] = {played:true, stars:0};
     saveProgress();
     wrap.classList.add("flipped","played");
-    setTimeout(()=>{ openQuestion(card, currentPairIndex, false); }, 1300);
+    setTimeout(()=>{ openQuestion(card, false); }, 1300);
   });
 
   return wrap;
@@ -590,9 +580,8 @@ const videoStage = document.getElementById("videoStage");
 const videoFallback = document.getElementById("videoFallback");
 const questionStage = document.getElementById("questionStage");
 
-function openQuestion(card, pairIndex, isReview){
+function openQuestion(card, isReview){
   currentCard = card;
-  currentPairIndex = pairIndex;
   reviewMode = !!isReview;
 
   resetTimer();
@@ -603,7 +592,7 @@ function openQuestion(card, pairIndex, isReview){
   document.getElementById("btnRevealAnswer").textContent = "Үлгі жауапты ашу";
 
   document.getElementById("qTopicLabel").textContent = card.topic;
-  document.getElementById("qNamesLabel").textContent = pairLabel(pairIndex);
+  document.getElementById("qNamesLabel").textContent = groupLabel(card.group);
   document.getElementById("qTextLabel").textContent = card.question;
   document.getElementById("fallbackQText").textContent = card.question;
 
@@ -732,10 +721,9 @@ document.querySelectorAll("#starsRow .star-btn").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     if(!currentCard) return;
     const n = +btn.dataset.star;
-    const entry = progress[currentCard.id] || {played:true, pairIndex:currentPairIndex};
+    const entry = progress[currentCard.id] || {played:true};
     entry.stars = n;
     entry.played = true;
-    if(entry.pairIndex===undefined || entry.pairIndex===null) entry.pairIndex = currentPairIndex;
     progress[currentCard.id] = entry;
     saveProgress();
     renderStars(n);
@@ -768,7 +756,7 @@ function renderSummaryScreen(){
     }
     tr.innerHTML =
       "<td>"+card.id+"</td>"+
-      "<td>"+(played ? pairLabel(entry.pairIndex) : "—")+"</td>"+
+      "<td>"+groupLabel(card.group)+"</td>"+
       "<td>"+card.topic+"</td>"+
       '<td class="sum-stars">'+starsHtml+"</td>";
     body.appendChild(tr);
@@ -809,6 +797,7 @@ document.getElementById("restartBtn").addEventListener("click", ()=>{
   const ok = confirm("Прогресті тазалап, басынан бастауға сенімдісіз бе?");
   if(!ok) return;
   progress = {};
+  currentGroupIdx = null;
   saveProgress();
   videoEl.pause();
   clearInterval(timerInterval); timerInterval=null;
