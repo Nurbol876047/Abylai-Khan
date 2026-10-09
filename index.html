@@ -349,7 +349,6 @@ table.summary-table tr:last-child td{border-bottom:none;}
     <div class="divider"></div>
     <div class="cta">
       <button class="btn primary" id="btnStart">Сабақты бастау</button>
-      <button class="btn ghost small" id="btnContinue" style="display:none;">Сабақты жалғастыру</button>
     </div>
   </div>
 </section>
@@ -458,27 +457,17 @@ const CARDS = [
   {id:12, group:2, topic:"Бірлікті жалғастыру", question:"Абылай ханның дәуіріндегі ел бірлігін бүгін қандай ісіңмен жалғастыра аласың?", answer:"Бірлікті ұранмен емес, іспен көрсетер едім: шет қалған сыныптасымды топқа қосып, ортақ жұмысқа үлес қосар едім.", video:"videos/12.mp4"}
 ];
 
-const LS_PROGRESS = "abylai_progress";
-
 /* ---------------- STATE ---------------- */
-let progress = loadProgress();
+let progress = {};
 let currentGroupIdx = null;
 let currentCard = null;
 let reviewMode = false;
 let timerSeconds = 90;
 let timerInterval = null;
 
-function loadProgress(){
-  try{
-    const raw = localStorage.getItem(LS_PROGRESS);
-    if(raw) return JSON.parse(raw);
-  }catch(e){}
-  return {};
-}
-function saveProgress(){ try{ localStorage.setItem(LS_PROGRESS, JSON.stringify(progress)); }catch(e){} }
 function groupLabel(i){
   if(i===null || i===undefined || !GROUPS[i]) return "—";
-  return GROUPS[i].name;
+  return (i+1)+"-топ "+GROUPS[i].name;
 }
 
 /* ---------------- SCREEN NAV ---------------- */
@@ -493,15 +482,7 @@ function showScreen(id){
 }
 
 /* ---------------- START ---------------- */
-function refreshStartScreen(){
-  const hasProgress = Object.values(progress).some(p=>p.played);
-  document.getElementById("btnContinue").style.display = hasProgress ? "inline-block" : "none";
-}
 document.getElementById("btnStart").addEventListener("click", ()=>{
-  renderDrawScreen();
-  showScreen("screen-draw");
-});
-document.getElementById("btnContinue").addEventListener("click", ()=>{
   renderDrawScreen();
   showScreen("screen-draw");
 });
@@ -515,7 +496,7 @@ function renderDrawScreen(){
   GROUPS.forEach(g=>{
     const opt = document.createElement("option");
     opt.value = g.id;
-    opt.textContent = g.name;
+    opt.textContent = groupLabel(g.id);
     select.appendChild(opt);
   });
   select.value = currentGroupIdx;
@@ -529,7 +510,7 @@ function renderDrawScreen(){
 
     const header = document.createElement("div");
     header.className = "group-section-header";
-    header.textContent = g.name;
+    header.textContent = groupLabel(g.id);
     section.appendChild(header);
 
     const row = document.createElement("div");
@@ -589,7 +570,6 @@ function buildCardEl(card){
       return;
     }
     progress[card.id] = {played:true, stars:0};
-    saveProgress();
     wrap.classList.add("flipped","played");
     setTimeout(()=>{ openQuestion(card, false); }, 1300);
   });
@@ -753,7 +733,6 @@ document.querySelectorAll("#starsRow .star-btn").forEach(btn=>{
     entry.stars = n;
     entry.played = true;
     progress[currentCard.id] = entry;
-    saveProgress();
     renderStars(n);
   });
 });
@@ -826,14 +805,12 @@ document.getElementById("restartBtn").addEventListener("click", ()=>{
   if(!ok) return;
   progress = {};
   currentGroupIdx = null;
-  saveProgress();
   videoEl.pause();
   clearInterval(timerInterval); timerInterval=null;
   questionStage.classList.remove("show");
   videoStage.style.display = "none";
   videoFallback.style.display = "none";
   stopParticles();
-  refreshStartScreen();
   showScreen("screen-start");
 });
 
@@ -868,7 +845,6 @@ function toggleFullscreen(){
 }
 
 /* ---------------- INIT ---------------- */
-refreshStartScreen();
 showScreen("screen-start");
 
 })();
