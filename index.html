@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Абылай хан мұрасы: бүгінгі күнге сабақ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -205,8 +208,9 @@ button{font-family:var(--font-body); cursor:pointer;}
   background:linear-gradient(145deg, var(--gold-light), var(--gold));
   color:var(--maroon-dark); transform:rotateY(180deg);
   border:2px solid var(--gold-light);
+  overflow-y:auto;
 }
-.card-front .topic{font-family:var(--font-head); font-weight:700; font-size:clamp(.85rem,1.25vw,1.15rem); line-height:1.25;}
+.card-front .topic{font-family:var(--font-head); font-weight:700; font-size:clamp(.68rem,1vw,.92rem); line-height:1.3;}
 .card-front .stars{margin-top:.5rem; font-size:clamp(.9rem,1.3vw,1.2rem); letter-spacing:.15em;}
 .star-on{color:var(--maroon-dark);}
 .star-off{color:rgba(58,16,16,.25);}
@@ -448,9 +452,9 @@ table.summary-table tr:last-child td{border-bottom:none;}
 
 /* ---------------- DATA ---------------- */
 const GROUPS = [
-  {id:0, name:"Саясат зерттеушілері"},
-  {id:1, name:"Дипломаттар"},
-  {id:2, name:"Мемлекет қорғаушылары"}
+  {id:0, name:"Саясат"},
+  {id:1, name:"Дипломат"},
+  {id:2, name:"Мемлекет"}
 ];
 
 const CARDS = [
@@ -526,8 +530,8 @@ function renderDrawScreen(){
 
     const row = document.createElement("div");
     row.className = "group-cards-row";
-    CARDS.filter(c=>c.group===g.id).forEach(card=>{
-      row.appendChild(buildCardEl(card));
+    CARDS.filter(c=>c.group===g.id).forEach((card, idx)=>{
+      row.appendChild(buildCardEl(card, idx+1));
     });
     section.appendChild(row);
 
@@ -546,7 +550,7 @@ function updateCurrentPairLabel(){
   document.getElementById("currentPairName").textContent = groupLabel(currentGroupIdx);
 }
 
-function buildCardEl(card){
+function buildCardEl(card, displayNum){
   const entry = progress[card.id];
   const played = !!(entry && entry.played);
 
@@ -559,7 +563,7 @@ function buildCardEl(card){
 
   const back = document.createElement("div");
   back.className = "card-face card-back";
-  back.innerHTML = '<div class="num">'+card.id+'</div><svg viewBox="0 0 110 80"><use href="#horn-motif"/></svg><div class="mark">?</div>';
+  back.innerHTML = '<div class="num">'+displayNum+'</div><svg viewBox="0 0 110 80"><use href="#horn-motif"/></svg><div class="mark">?</div>';
 
   const front = document.createElement("div");
   front.className = "card-face card-front";
@@ -567,7 +571,7 @@ function buildCardEl(card){
   let starsHtml = "";
   for(let s=1;s<=3;s++) starsHtml += '<span class="'+(s<=stars?"star-on":"star-off")+'">★</span>';
   front.innerHTML =
-    '<div class="topic">'+card.topic+'</div>'+
+    '<div class="topic">'+card.question+'</div>'+
     '<div class="stars">'+starsHtml+'</div>';
 
   inner.appendChild(back);
